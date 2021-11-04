@@ -56,20 +56,25 @@ public class Player : MonoBehaviour
 
     private void isMove()
     {
-        float X = Input.GetAxisRaw("Horizontal");
-        float Z = Input.GetAxisRaw("Vertical");
-       // Debug.Log("Move");
+        float X = Input.GetAxisRaw("Vertical");
+        float Z = Input.GetAxisRaw("Horizontal");
+        // Debug.Log("Move");
 
-         MoveDir = new Vector3(X, 0, Z).normalized;
-       // Debug.Log(MoveDir);
-        
+         Vector3 PlayerMove = new Vector3(X, 0, Z).normalized;
+        // Debug.Log(MoveDir);
+
         //Vector3 MoveForward = new Vector3(Cam.forward.x, 0, 0).normalized;
 
         if (Input.GetKey(KeyCode.Space))
         {
             player.forward = Cam.forward;
         }
-        transform.position += MoveDir * Time.deltaTime * MoveSpeed;
+        Vector3 Lookforward = new Vector3(Cam.forward.x, 0f, Cam.forward.z).normalized;
+        Vector3 LookRight = new Vector3(Cam.right.x, 0f, Cam.right.z).normalized;
+        Vector3 MoveDir = Lookforward * X + LookRight * Z;
+
+        player.transform.forward = Lookforward;
+        this.transform.position += MoveDir * Time.deltaTime;
     }
 
     private void LookAt()

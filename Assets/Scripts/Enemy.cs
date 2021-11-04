@@ -20,14 +20,14 @@ public class Enemy : MonoBehaviour
     
     protected Vector3 MoveTarget = Vector3.zero;
     
-    enum Mode
+   public enum Mode
     {
         patrol,
         runaway,
         chase,
     }
 
-    Mode mode = Mode.patrol;
+    public Mode mode = Mode.patrol;
     protected virtual void Start()
     {
         NMA = GetComponent<NavMeshAgent>();
@@ -73,12 +73,8 @@ public class Enemy : MonoBehaviour
     }
 
     protected void Moveing() { NMA.destination = MoveTarget; }
-    public virtual void SetPosition() { }
 
-    protected virtual void ChasePattern()
-    {
-
-    }
+    protected virtual void ChasePattern()  {  }
 
     protected void PatternRed()
     {
