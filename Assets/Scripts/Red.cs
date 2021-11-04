@@ -16,11 +16,15 @@ public class Red : Enemy
         Moveing();
         Condition();
         modechange();
+        Debug.Log("Mode : " + mode);
+        
     }
     protected override void ChasePattern()
     {
         PatternRed();
     }
+    
 
+   
 
 }

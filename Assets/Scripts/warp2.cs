@@ -5,7 +5,7 @@ using UnityEngine;
 public class warp2 : MonoBehaviour
 {
   [SerializeField]
-    private Transform WarpExit = null;
+    private GameObject WarpExit2 = null;
 
     private bool warpenalbe = true;
     void Start()
@@ -25,7 +25,7 @@ public class warp2 : MonoBehaviour
         {
        
                 warpenalbe = false;
-                other.transform.position = WarpExit.position;
+                other.transform.position = WarpExit2.transform.position;
                 other.transform.rotation = Quaternion.Euler(0, 180, 0);
                 Debug.Log(other.transform.position);
             

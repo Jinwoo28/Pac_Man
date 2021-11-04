@@ -9,6 +9,10 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform Cam = null;
     [SerializeField] private Transform player = null;
 
+ 
+
+    private bool warpable = true;
+
     private Vector3 MoveDir = Vector3.zero;
 
     private Vector3 Playerforward = Vector3.zero;
@@ -99,6 +103,8 @@ public class Player : MonoBehaviour
     {
         return playermode;
     }
+
+
 
 
 }

@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class warp : MonoBehaviour
 {
-  [SerializeField]
-    private Transform WarpExit2 = null;
+    [SerializeField]
+    private GameObject WarpExit = null;
 
-    private bool warpenalbe = true;
+
+    private bool warpalbe = true;
     void Start()
     {
         
@@ -23,13 +24,27 @@ public class warp : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-   
-                warpenalbe = false;
-                other.transform.position = WarpExit2.position;
-                other.transform.rotation = Quaternion.Euler(0, 180, 0);
+            if (warpalbe)
+            {
+                warpalbe = false;
+                other.transform.position = WarpExit.transform.position;
                 Debug.Log(other.transform.position);
-            
+                WarpExit.GetComponent<warp>().donwarp();
+            }
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            warpalbe = true;
+        }
+    }
+
+    public void donwarp()
+    {
+        warpalbe = false;
     }
 
 

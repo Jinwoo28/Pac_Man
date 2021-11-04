@@ -13,14 +13,20 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     private Transform RedPos = null;
-    
+
+public Transform Warp1Pos = null;
+    public Transform Warp2Pos = null;
+
     protected NavMeshAgent NMA = null;
     private bool ischase = false;
     private int PatrolPointNum = 0;
     
     protected Vector3 MoveTarget = Vector3.zero;
-    
-   public enum Mode
+
+    private bool warp1able = true;
+    private bool warp2able = true;
+
+    public enum Mode
     {
         patrol,
         runaway,
@@ -31,6 +37,8 @@ public class Enemy : MonoBehaviour
     protected virtual void Start()
     {
         NMA = GetComponent<NavMeshAgent>();
+
+        
     }
 
     protected void modechange()
@@ -52,8 +60,7 @@ public class Enemy : MonoBehaviour
 
     public void Condition()
     {
-        if (Vector3.Distance(this.transform.position, Player.transform.position) < 20 &&
-            (Player.GetComponent<Player>().GetMove().magnitude > 0))
+        if (Vector3.Distance(this.transform.position, Player.transform.position) < 20)
         {
             mode = Mode.chase;
         }
@@ -72,7 +79,7 @@ public class Enemy : MonoBehaviour
                
     }
 
-    protected void Moveing() { NMA.destination = MoveTarget; }
+    protected void Moveing() { NMA.SetDestination(MoveTarget); }
 
     protected virtual void ChasePattern()  {  }
 
@@ -112,5 +119,34 @@ public class Enemy : MonoBehaviour
         Vector3 Pos = Player.transform.position - this.transform.position;
         this.transform.position += Pos;
     }
+
+    protected void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("warp1"))
+        {
+            if (warp1able)
+            {
+                warp2able = false;
+                NMA.Warp(Warp2Pos.position);
+                Debug.Log("warp1");
+            }
+        }
+        else if (other.CompareTag("warp2"))
+        {
+            if (warp2able)
+            {
+                warp1able = false;
+                NMA.Warp(Warp1Pos.position);
+                Debug.Log("warp2");
+            }
+        }
+    }
+
+    protected void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("warp1")) warp1able = true;
+        else if (other.CompareTag("warp1")) warp2able = true;
+    }
+
 
 }
