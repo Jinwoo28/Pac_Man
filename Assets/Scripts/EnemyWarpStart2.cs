@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyWarpStart2 : MonoBehaviour
+public class EnemyWarpStart : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
@@ -12,7 +12,7 @@ public class EnemyWarpStart2 : MonoBehaviour
             if (other.GetComponent<Enemy>().WarpMode())
             {
                 other.GetComponent<Enemy>().mode = Enemy.Mode.warp;
-                other.GetComponent<Enemy>().WarpPos2();
+                other.GetComponent<Enemy>().WarpPos1();
             }
         }
     }

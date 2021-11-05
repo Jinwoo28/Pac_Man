@@ -14,23 +14,24 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private Transform RedPos = null;
 
-public Transform Warp1Pos = null;
+    public Transform Warp1Pos = null;
     public Transform Warp2Pos = null;
+
 
     protected NavMeshAgent NMA = null;
     private bool ischase = false;
-    private int PatrolPointNum = 0;
+    private int PatrolPointNum = 1;
     
     public Vector3 MoveTarget = Vector3.zero;
 
     private bool warp1able = true;
     private bool warp2able = true;
-
+    private bool CanWarp = false;
     private bool warpmode = false;
 
     public enum Mode
     {
-        Idle,
+        warp,
         patrol,
         runaway,
         chase,
@@ -40,8 +41,6 @@ public Transform Warp1Pos = null;
     protected virtual void Start()
     {
         NMA = GetComponent<NavMeshAgent>();
-
-        
     }
 
     protected void modechange()
@@ -53,34 +52,52 @@ public Transform Warp1Pos = null;
                 Patrolpatton();
                 break;
             case Mode.runaway:
+                Debug.Log("RunAway");
                 Runaway();
                 break;
             case Mode.chase:
                 ChasePattern();
                 break;
+            case Mode.warp:
+                Warpmode();
+                break;
         }
     }
 
+    public void Warpmode()
+    {
+        
+    }
+
+    public void WarpPos1() { MoveTarget = Warp1Pos.position; }
+    public void WarpPos2() { MoveTarget = Warp2Pos.position; }
+
     public void Condition()
     {
-        if (Vector3.Distance(this.transform.position, Player.transform.position) < 20)
-        {
-            mode = Mode.chase;
-            PatrolPointNum = 0;
-        }
 
-        else if (Player.GetComponent<Player>().GetPlayermode() == global::Player.PlayerMode.powerUp)
-        {
-            mode = Mode.runaway;
-        }
-
-        else if (warpmode) { mode = Mode.Idle; }
-
+        if (CanWarp) { mode = Mode.warp; }
         else
         {
-            mode = Mode.patrol;
+            if (Player.GetComponent<Player>().playermode == global::Player.PlayerMode.powerUp)
+            {
+                mode = Mode.runaway;
+                Debug.Log(mode);
+            }
+
+            else
+            {
+                if (Vector3.Distance(this.transform.position, Player.transform.position) < 20)
+                {
+                    mode = Mode.chase;
+                    PatrolPointNum = 1;
+                }
+                else mode = Mode.patrol;
+            }
         }
 
+
+        
+        
 
                
     }
@@ -134,6 +151,7 @@ public Transform Warp1Pos = null;
     protected void Runaway()
     {
         Vector3 Pos =  Player.transform.position - this.transform.position;
+        Debug.Log("µµ¸Á");
         MoveTarget = -Pos;
     }
 
@@ -142,6 +160,7 @@ public Transform Warp1Pos = null;
 
         if (other.CompareTag("Player"))
         {
+            if(other.GetComponent<Player>().GetPlayermode()==global::Player.PlayerMode.Idle)
             other.GetComponent<Player>().PlayerDie();
         }
 
@@ -171,15 +190,21 @@ public Transform Warp1Pos = null;
         else if (other.CompareTag("warp1")) warp2able = true;
     }
 
-    public void WarpMode()
+    public bool WarpMode()
     {
-        warpmode = true;
-    }
-    public void WarpModeExit()
-    {
-        warpmode = false;
+        return CanWarp;
     }
 
+    public void scatter()
+    {
+      //  Debug.Log("¸ÔÈû");
+    }
+
+    public void CanWarpChange()
+    {
+        if (CanWarp) CanWarp = false;
+        else if (!CanWarp) CanWarp = true;
+    }
    
 
 

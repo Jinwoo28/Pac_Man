@@ -21,7 +21,7 @@ public class PowerUp : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.GetComponent<Player>().PowerUp();
-            Debug.Log("公利");
+            //Debug.Log("公利");
             Destroy(this.gameObject);
             
         }

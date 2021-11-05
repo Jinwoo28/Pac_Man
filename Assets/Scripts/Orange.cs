@@ -15,7 +15,6 @@ public class Orange : Enemy
     {
         Moveing();
         modechange();
-        Debug.Log(mode);
     }
     protected override void ChasePattern()
     {

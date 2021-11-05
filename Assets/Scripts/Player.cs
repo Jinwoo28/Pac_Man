@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
         powerUp,
     }
 
-    PlayerMode playermode = PlayerMode.Idle;
+    public PlayerMode playermode = PlayerMode.Idle;
     
     void Start()
     {
@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     void Update()
     {
 
+        Debug.Log(playermode);
 
         RaycastHit hit;
         if (Physics.Raycast(this.transform.position, this.transform.forward, out hit))
@@ -109,6 +110,14 @@ public class Player : MonoBehaviour
     public void PowerUp()
     {
         playermode = PlayerMode.powerUp;
+        StopCoroutine("PowerCanCel");
+        StartCoroutine("PowerCanCel");
+    }
+
+    IEnumerator PowerCanCel() 
+    {
+        yield return new WaitForSeconds(5.0f);
+        playermode = PlayerMode.Idle;
     }
 
     public void CoinCountUp()
@@ -129,6 +138,17 @@ public class Player : MonoBehaviour
     public bool PlayerLife()
     {
         return playerDie;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(playermode == PlayerMode.powerUp)
+        {
+            if (other.CompareTag("Enemy"))
+            {
+                other.GetComponent<Enemy>().scatter();
+            }
+        }
     }
 
 

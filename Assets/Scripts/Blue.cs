@@ -13,6 +13,7 @@ public class Blue : Enemy
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Bule : " + MoveTarget);
         Moveing();
         modechange();
     }
