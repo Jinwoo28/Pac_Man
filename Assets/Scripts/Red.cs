@@ -13,11 +13,8 @@ public class Red : Enemy
     // Update is called once per frame
      void Update()
     {
-        Moveing();
-        Condition();
+       Moveing();
         modechange();
-        Debug.Log("Mode : " + mode);
-        
     }
     protected override void ChasePattern()
     {

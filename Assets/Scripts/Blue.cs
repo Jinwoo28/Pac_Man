@@ -14,9 +14,7 @@ public class Blue : Enemy
     void Update()
     {
         Moveing();
-        Condition();
         modechange();
-        Debug.Log(mode);
     }
     protected override void ChasePattern()
     {

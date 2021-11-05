@@ -13,8 +13,7 @@ public class Pink : Enemy
     // Update is called once per frame
     void Update()
     {
-        Moveing();
-        Condition();
+       Moveing();
         modechange();
     }
     protected override void ChasePattern()

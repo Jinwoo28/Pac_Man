@@ -115,8 +115,9 @@ public Transform Warp1Pos = null;
 
     protected void Patrolpatton()
     {
-        NMA.SetDestination(PatrolPos[PatrolPointNum].position);
-        
+        MoveTarget = PatrolPos[PatrolPointNum].position;
+
+
         if (Vector3.Distance(this.transform.position, PatrolPos[PatrolPointNum].position)<1.0f){
             PatrolPointnum();
         }
@@ -133,11 +134,17 @@ public Transform Warp1Pos = null;
     protected void Runaway()
     {
         Vector3 Pos =  Player.transform.position - this.transform.position;
-        this.transform.position += Pos;
+        MoveTarget = -Pos;
     }
 
     protected void OnTriggerEnter(Collider other)
     {
+
+        if (other.CompareTag("Player"))
+        {
+            other.GetComponent<Player>().PlayerDie();
+        }
+
         if (other.CompareTag("warp1"))
         {
             if (warp1able)
@@ -172,6 +179,8 @@ public Transform Warp1Pos = null;
     {
         warpmode = false;
     }
+
+   
 
 
 }

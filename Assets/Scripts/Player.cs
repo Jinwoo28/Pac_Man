@@ -9,13 +9,15 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform Cam = null;
     [SerializeField] private Transform player = null;
 
- 
-
+    private int CoinCount = 0;
+    
     private bool warpable = true;
 
     private Vector3 MoveDir = Vector3.zero;
 
     private Vector3 Playerforward = Vector3.zero;
+
+    private bool playerDie = false;
     public enum PlayerMode
     {
         Idle,
@@ -109,7 +111,25 @@ public class Player : MonoBehaviour
         playermode = PlayerMode.powerUp;
     }
 
+    public void CoinCountUp()
+    {
+        CoinCount++;
+    }
 
+    public int GetCoinCount()
+    {
+        return CoinCount;
+    }
+
+    public void PlayerDie()
+    {
+        playerDie = true;
+    }
+
+    public bool PlayerLife()
+    {
+        return playerDie;
+    }
 
 
 }

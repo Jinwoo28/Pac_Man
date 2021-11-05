@@ -14,7 +14,6 @@ public class Orange : Enemy
     void Update()
     {
         Moveing();
-        Condition();
         modechange();
         Debug.Log(mode);
     }
