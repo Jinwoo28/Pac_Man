@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
         Vector3 MoveDir = Lookforward * X + LookRight * Z;
 
         player.transform.forward = Lookforward;
-        this.transform.position += MoveDir * Time.deltaTime;
+        this.transform.position += MoveDir * Time.deltaTime*MoveSpeed;
     }
 
     private void LookAt()
@@ -102,6 +102,11 @@ public class Player : MonoBehaviour
     public PlayerMode GetPlayermode()
     {
         return playermode;
+    }
+
+    public void PowerUp()
+    {
+        playermode = PlayerMode.powerUp;
     }
 
 

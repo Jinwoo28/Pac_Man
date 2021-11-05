@@ -21,13 +21,16 @@ public Transform Warp1Pos = null;
     private bool ischase = false;
     private int PatrolPointNum = 0;
     
-    protected Vector3 MoveTarget = Vector3.zero;
+    public Vector3 MoveTarget = Vector3.zero;
 
     private bool warp1able = true;
     private bool warp2able = true;
 
+    private bool warpmode = false;
+
     public enum Mode
     {
+        Idle,
         patrol,
         runaway,
         chase,
@@ -63,12 +66,15 @@ public Transform Warp1Pos = null;
         if (Vector3.Distance(this.transform.position, Player.transform.position) < 20)
         {
             mode = Mode.chase;
+            PatrolPointNum = 0;
         }
 
         else if (Player.GetComponent<Player>().GetPlayermode() == global::Player.PlayerMode.powerUp)
         {
             mode = Mode.runaway;
         }
+
+        else if (warpmode) { mode = Mode.Idle; }
 
         else
         {
@@ -97,26 +103,36 @@ public Transform Warp1Pos = null;
     protected void PatternPink()
     {
         MoveTarget = Player.GetComponent<Player>().GetPlayerforward();
+        if (Vector3.Distance(this.transform.position, Player.GetComponent<Player>().GetPlayerforward()) < 2.0f)
+        {
+            PatternRed();
+        }
     }
+
+    protected void PatternOrange() {   }
+
+
 
     protected void Patrolpatton()
     {
         NMA.SetDestination(PatrolPos[PatrolPointNum].position);
+        
         if (Vector3.Distance(this.transform.position, PatrolPos[PatrolPointNum].position)<1.0f){
             PatrolPointnum();
         }
+
     }
 
     private void PatrolPointnum()
     {
         PatrolPointNum++;
-        if (PatrolPointNum == PatrolPos.Length) PatrolPointNum = 0;
+        if (PatrolPointNum == PatrolPos.Length) PatrolPointNum = 1;
     
     }
 
     protected void Runaway()
     {
-        Vector3 Pos = Player.transform.position - this.transform.position;
+        Vector3 Pos =  Player.transform.position - this.transform.position;
         this.transform.position += Pos;
     }
 
@@ -146,6 +162,15 @@ public Transform Warp1Pos = null;
     {
         if (other.CompareTag("warp1")) warp1able = true;
         else if (other.CompareTag("warp1")) warp2able = true;
+    }
+
+    public void WarpMode()
+    {
+        warpmode = true;
+    }
+    public void WarpModeExit()
+    {
+        warpmode = false;
     }
 
 

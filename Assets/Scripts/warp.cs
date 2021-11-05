@@ -28,7 +28,6 @@ public class warp : MonoBehaviour
             {
                 warpalbe = false;
                 other.transform.position = WarpExit.transform.position;
-                Debug.Log(other.transform.position);
                 WarpExit.GetComponent<warp>().donwarp();
             }
         }
