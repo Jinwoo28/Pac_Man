@@ -15,8 +15,7 @@ public class Red : Enemy
     {
        Moveing();
         modechange();
-        Debug.Log("Red " + MoveTarget);
-      //  Debug.Log(MoveTarget);
+        ColorChange();
     }
     protected override void ChasePattern()
     {

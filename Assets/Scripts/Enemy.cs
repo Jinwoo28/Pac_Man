@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
@@ -13,6 +14,22 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     private Transform RedPos = null;
+
+    [SerializeField]
+    private Renderer GhostBody = null;
+
+    [SerializeField]
+    private Material DefaultColor;
+
+    [SerializeField]
+    private Material ScatterColor;
+
+    [SerializeField]
+    private SpriteRenderer Nomal = null;
+
+    [SerializeField]
+    private SpriteRenderer Frightened = null;
+
 
     public Transform Warp1Pos = null;
     public Transform Warp2Pos = null;
@@ -41,6 +58,16 @@ public class Enemy : MonoBehaviour
     protected virtual void Start()
     {
         NMA = GetComponent<NavMeshAgent>();
+        GhostBody.material = DefaultColor;
+        Frightened.enabled = false;
+        Nomal.enabled = true;
+    }
+
+    protected void ColorChange()
+    {
+        if (mode == Mode.runaway) GhostBody.material = ScatterColor;
+        else GhostBody.material = DefaultColor;
+
     }
 
     protected void modechange()
@@ -52,22 +79,16 @@ public class Enemy : MonoBehaviour
                 Patrolpatton();
                 break;
             case Mode.runaway:
-                Debug.Log("RunAway");
                 Runaway();
                 break;
             case Mode.chase:
                 ChasePattern();
                 break;
             case Mode.warp:
-                Warpmode();
                 break;
         }
     }
 
-    public void Warpmode()
-    {
-        
-    }
 
     public void WarpPos1() { MoveTarget = Warp1Pos.position; }
     public void WarpPos2() { MoveTarget = Warp2Pos.position; }
@@ -81,11 +102,14 @@ public class Enemy : MonoBehaviour
             if (Player.GetComponent<Player>().playermode == global::Player.PlayerMode.powerUp)
             {
                 mode = Mode.runaway;
-                Debug.Log(mode);
+                Frightened.enabled = true;
+                Nomal.enabled = false;
             }
 
             else
             {
+                Frightened.enabled = false;
+                Nomal.enabled = true;
                 if (Vector3.Distance(this.transform.position, Player.transform.position) < 20)
                 {
                     mode = Mode.chase;
@@ -151,7 +175,6 @@ public class Enemy : MonoBehaviour
     protected void Runaway()
     {
         Vector3 Pos =  Player.transform.position - this.transform.position;
-        Debug.Log("µµ¸Á");
         MoveTarget = -Pos;
     }
 
@@ -197,7 +220,7 @@ public class Enemy : MonoBehaviour
 
     public void scatter()
     {
-      //  Debug.Log("¸ÔÈû");
+        NMA.Warp(PatrolPos[0].position);
     }
 
     public void CanWarpChange()

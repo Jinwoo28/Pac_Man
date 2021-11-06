@@ -7,34 +7,90 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
+    private GameObject GameOverUi = null;
+
+    [SerializeField]
     private GameObject player = null;
 
     [SerializeField]
     private Text text = null;
 
-    private int PlayerCount = 0;
+    [SerializeField]
+    private Transform AmountCoin = null;
+
+    [SerializeField]
+    private RawImage FullMiniMap = null;
+    [SerializeField]
+    private GameObject SmallMiniMap = null;
+
+    private int GoalCount = 0;
+    private int Count = 0;
+
+    private bool minimapchange = true;
+
+
+ 
+
+    private void Awake()
+    {
+        foreach(Transform child in AmountCoin)
+        {
+            GoalCount++;
+        }
+
+    }
+
     private void Update()
     {
-        text.text = "Coin : " + (100-player.GetComponent<Player>().GetCoinCount()).ToString("D2");
-    }
+        text.text = "Coin : " + Count.ToString("D2");
 
-    private void CoinCount()
-    {
-        PlayerCount = player.GetComponent<Player>().GetCoinCount();
-    }
+        PlayerDie();
 
-    private void ClearGame()
-    {
-        if(PlayerCount == 50)
+        MinimapChange1();
+        
+        SetCoinCount();
+
+
+
+        if (Input.GetMouseButtonDown(0)&& !player.GetComponent<Player>().GetPlayerDie()) 
         {
-            Debug.Log("게임 클리어");
+            minimapchange = !minimapchange;
+        }
+
+
+    }
+
+    private void SetCoinCount()
+    {
+        Count = GoalCount - player.GetComponent<Player>().GetCoinCount();
+        if(Count == 0) { SceneManager.LoadScene(2); }
+    }
+
+    public void LoadGameScene()
+    {
+        SceneManager.LoadScene(1);
+        player.GetComponent<Player>().PlayerRevive();
+        Time.timeScale = 1;
+    }
+
+
+    public void PlayerDie()
+    {
+        if (player.GetComponent<Player>().GetPlayerDie())
+        {
+            GameOverUi.SetActive(true);
+            Time.timeScale = 0;
         }
     }
 
-    private void EndGame()
+    public void MinimapChange1()
     {
-        if (player.GetComponent<Player>().PlayerLife())
-            Debug.Log("게임종료");
+        FullMiniMap.enabled = minimapchange;
+        SmallMiniMap.SetActive(!minimapchange);
     }
+
+
+
+
 
 }

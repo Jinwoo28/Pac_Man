@@ -34,19 +34,17 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        Debug.Log(playermode);
-
-        RaycastHit hit;
-        if (Physics.Raycast(this.transform.position, this.transform.forward, out hit))
+        if (!playerDie)
         {
-            Playerforward = hit.point;
+            RaycastHit hit;
+            if (Physics.Raycast(this.transform.position, this.transform.forward, out hit))
+            {
+                Playerforward = hit.point;
+            }
+            isMove();
+            LookAt();
         }
-
-
-
-        isMove();
-        LookAt();
+        Debug.Log(playerDie);
     }
 
     private void ModeChange()
@@ -63,25 +61,16 @@ public class Player : MonoBehaviour
 
     private void isMove()
     {
-        float X = Input.GetAxisRaw("Vertical");
-        float Z = Input.GetAxisRaw("Horizontal");
-        // Debug.Log("Move");
-
-         Vector3 PlayerMove = new Vector3(X, 0, Z).normalized;
-        // Debug.Log(MoveDir);
-
-        //Vector3 MoveForward = new Vector3(Cam.forward.x, 0, 0).normalized;
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            player.forward = Cam.forward;
-        }
+        Debug.Log("??");
+        float Z = Input.GetAxisRaw("Vertical");
+        float X = Input.GetAxisRaw("Horizontal");
+  
         Vector3 Lookforward = new Vector3(Cam.forward.x, 0f, Cam.forward.z).normalized;
         Vector3 LookRight = new Vector3(Cam.right.x, 0f, Cam.right.z).normalized;
-        Vector3 MoveDir = Lookforward * X + LookRight * Z;
+        Vector3 MoveDir = Lookforward * Z + LookRight * X;
 
-        player.transform.forward = Lookforward;
-        this.transform.position += MoveDir * Time.deltaTime*MoveSpeed;
+            player.transform.forward = Lookforward;
+            this.transform.position += MoveDir * Time.deltaTime*MoveSpeed;
     }
 
     private void LookAt()
@@ -130,9 +119,19 @@ public class Player : MonoBehaviour
         return CoinCount;
     }
 
+    public bool GetPlayerDie()
+    {
+        return playerDie;
+    }
+
     public void PlayerDie()
     {
         playerDie = true;
+    }
+
+    public void PlayerRevive()
+    {
+        playerDie = false;
     }
 
     public bool PlayerLife()

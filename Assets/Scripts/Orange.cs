@@ -13,6 +13,7 @@ public class Orange : Enemy
     // Update is called once per frame
     void Update()
     {
+        ColorChange();
         Moveing();
         modechange();
     }
