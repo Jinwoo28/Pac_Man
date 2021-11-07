@@ -6,8 +6,12 @@ public class Player : MonoBehaviour
 {
     private Rigidbody Rb = null;
     private float MoveSpeed = 7;
-    [SerializeField] private Transform Cam = null;
-    [SerializeField] private Transform player = null;
+
+    [SerializeField] 
+    private Transform Cam = null;
+
+    [SerializeField] 
+    private Transform player = null;
 
     private int CoinCount = 0;
     
@@ -78,7 +82,6 @@ public class Player : MonoBehaviour
         Vector2 mouseDelta = new Vector2(Input.GetAxis("Mouse X"),0);
         Vector3 CamAngle = Cam.rotation.eulerAngles;
         Cam.rotation = Quaternion.Euler(0, CamAngle.y + mouseDelta.x, 0).normalized;
-       // this.transform.rotation = Quaternion.Euler(0, CamAngle.y + mouseDelta.y, 0).normalized;
     }
 
     public Vector3 GetPlayerforward()
