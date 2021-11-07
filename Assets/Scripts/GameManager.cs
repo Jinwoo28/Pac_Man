@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
 
     private bool minimapchange = true;
 
+    private bool gameStart = true;
+
 
  
 
@@ -42,6 +44,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (gameStart)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
         text.text = "Coin : " + Count.ToString("D2");
 
         PlayerDie();
@@ -70,6 +80,7 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(1);
         player.GetComponent<Player>().PlayerRevive();
+        gameStart = true;
         Time.timeScale = 1;
     }
 
@@ -79,6 +90,7 @@ public class GameManager : MonoBehaviour
         if (player.GetComponent<Player>().GetPlayerDie())
         {
             GameOverUi.SetActive(true);
+            gameStart = false;
             Time.timeScale = 0;
         }
     }
