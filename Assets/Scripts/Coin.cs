@@ -5,33 +5,23 @@ using UnityEngine;
 public class Coin : MonoBehaviour
 {
     [SerializeField]
-    private GameObject Sp = null;
     private ParticleSystem Ps = null;
-    private MeshRenderer Ms = null;
     private void Start()
     {
-        Ps = GetComponent<ParticleSystem>();
-         Ms = GetComponent<MeshRenderer>();
+
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             other.GetComponent<Player>().CoinCountUp();
-            Ms.enabled = false;
-            Destroy(Sp);
-            Ps.Play();
-
-            StartCoroutine("CoinDestroy");
+            ParticleSystem ps =  Instantiate(Ps, this.transform.position,Quaternion.Euler(90,0,180));
+            ps.Play();
+            Destroy(this.gameObject);
 
         }
     }
 
-    IEnumerator CoinDestroy()
-    {
-        yield return new WaitForSeconds(0.5f);
-        Destroy(this.gameObject);
-    }
 
 
 }

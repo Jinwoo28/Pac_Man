@@ -10,6 +10,9 @@ public class Enemy : MonoBehaviour
     protected GameObject Player = null;
 
     [SerializeField]
+    private ParticleSystem Ps = null;
+
+    [SerializeField]
     protected Transform[] PatrolPos = null;
 
     [SerializeField]
@@ -220,6 +223,8 @@ public class Enemy : MonoBehaviour
 
     public void scatter()
     {
+        ParticleSystem ps = Instantiate(Ps, this.transform.position, Quaternion.Euler(90, 0, 180));
+        ps.Play();
         NMA.Warp(PatrolPos[0].position);
     }
 
