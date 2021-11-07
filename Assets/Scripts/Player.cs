@@ -13,6 +13,9 @@ public class Player : MonoBehaviour
     [SerializeField] 
     private Transform player = null;
 
+    [SerializeField]
+    private Transform MinimaSmall = null;
+
     private int CoinCount = 0;
     
     private bool warpable = true;
@@ -82,6 +85,9 @@ public class Player : MonoBehaviour
         Vector2 mouseDelta = new Vector2(Input.GetAxis("Mouse X"),0);
         Vector3 CamAngle = Cam.rotation.eulerAngles;
         Cam.rotation = Quaternion.Euler(0, CamAngle.y + mouseDelta.x, 0).normalized;
+
+        MinimaSmall.rotation = Quaternion.Euler(90, CamAngle.y + mouseDelta.x,0).normalized;
+
     }
 
     public Vector3 GetPlayerforward()
