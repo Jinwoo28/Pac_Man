@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
         PlayerDie();
 
         MinimapChange1();
-        MinimapPosChange();
+
 
 
         SetCoinCount();
@@ -108,11 +108,7 @@ public class GameManager : MonoBehaviour
         SmallMiniMap.SetActive(!minimapchange);
     }
 
-    public void MinimapPosChange() 
-    {
-        FullMiniMap.transform.position = MinimapPos[MInimapPosNum];
-        SmallMiniMap.transform.position = MinimapPos[MInimapPosNum];
-    }
+
 
 
 
